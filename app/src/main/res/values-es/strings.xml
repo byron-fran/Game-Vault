@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gamer Vault</string>
+    <string name="games">Juegos</string>
+    <string name="favorites">Favoritos</string>
+    <string name="search">Buscar</string>
+</resources>
