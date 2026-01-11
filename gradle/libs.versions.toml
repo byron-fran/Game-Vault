@@ -1,6 +1,7 @@
 [versions]
 agp = "8.13.2"
 kotlin = "2.0.21"
+ksp = "2.0.21-1.0.26"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -8,7 +9,42 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.2"
 composeBom = "2024.09.00"
-
+# Navigation3
+nav3Core = "1.0.0"
+kotlinSerialization = "2.0.0"
+kotlinxSerializationCore = "1.8.1"
+# Retrofit
+retrofit = "3.0.0"
+# Coil
+coil = "2.7.0"
+# Paging3
+paging3 = "3.3.0"
+# material3 adaptive
+window = "1.4.0"
+material3Adaptive = "1.1.0"
+material3AdaptiveNavSuite = "1.3.2"
+# Splashscreen
+splashscreen = "1.0.1"
+# hilt
+hiltAndroid = "2.57.1"
+hiltNavigationCompose = "1.3.0"
+# Material
+material = "1.13.0-alpha08"
+# Coroutines
+coroutines = "1.9.0"
+# Turbine
+turnbine = "1.2.1"
+# constraint layou
+constraintlayoutCompose = "1.1.1"
+# google services
+googleServices = "4.4.4"
+# Firebase Boom
+firebaseBoom = "34.7.0"
+firebaseCrashlytics ="3.0.6"
+# Json to kotlin
+jsonToKotlin = "3.7.4"
+# Material 3 expresive
+material3Expresive = "1.4.0-alpha14"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,9 +60,58 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+# material3 adaptive
+androidx-window = { module = "androidx.window:window", version.ref = "window" }
+androidx-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref="material3Adaptive"}
+androidx-material3-adaptive-navigation-suite = { module="androidx.compose.material3:material3-adaptive-navigation-suite", version.ref="material3AdaptiveNavSuite" }
+androidx-material3-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "material3Adaptive" }
+androidx-material3-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3Adaptive" }
+androidx-material3-window-sizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
+# constraint layout
+androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
+#Navigation3
+androidx-navigation3-runtime = { module="androidx.navigation3:navigation3-runtime", version.ref= "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core"}
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+# Retrofit
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+# coil
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+# Paging3
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging3" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging3" }
+# Splashscreen
+androidx-splashcreen = {module="androidx.core:core-splashscreen", version.ref ="splashscreen" }
+# hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+# Material Classic
+google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# Turbine
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turnbine" }
+# coroutines testing
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+# firebase boom
+firebase-boom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBoom" }
+firebase-auth= { module = "com.google.firebase:firebase-auth" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics"}
+firebase-config = { module = "com.google.firebase:firebase-config"}
+firebase-analytics = { module = "com.google.firebase:firebase-analytics"}
+# Json to kotlin
+json-kotlin = { group = "com.sealwu.jsontokotlin", name ="library", version.ref="jsonToKotlin"}
+# Materail 3 Expresive
+material3-expresive = { group = "androidx.compose.material3", name="material3-android", version.ref="material3Expresive" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+kotlin-ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}
+hilt-android= { id ="com.google.dagger.hilt.android", version.ref="hiltAndroid"}
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics"}
