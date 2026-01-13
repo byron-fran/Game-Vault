@@ -71,3 +71,62 @@ fun BodyMedium(
     )
 
 }
+@Composable
+fun BodySmall(
+    text: String,
+    color : Color = MaterialTheme.colorScheme.onBackground,
+    maxLines: Int = 1,
+    textOverflow: TextOverflow = TextOverflow.Ellipsis,
+    textAlign: TextAlign = TextAlign.Start,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        maxLines = maxLines,
+        style = MaterialTheme.typography.bodySmall,
+        color = color,
+        overflow = textOverflow,
+        textAlign = textAlign
+    )
+
+}
+@Composable
+fun TitleMedium(
+    text: String,
+    color : Color = MaterialTheme.colorScheme.onBackground,
+    maxLines: Int = 1,
+    textOverflow: TextOverflow = TextOverflow.Ellipsis,
+    textAlign: TextAlign = TextAlign.Start,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        maxLines = maxLines,
+        style = MaterialTheme.typography.titleMedium,
+        color = color,
+        overflow = textOverflow,
+        textAlign = textAlign
+    )
+}
+
+@Composable
+fun TitleLarge(
+    text: String,
+    color : Color = MaterialTheme.colorScheme.onBackground,
+    maxLines: Int = 1,
+    textOverflow: TextOverflow = TextOverflow.Ellipsis,
+    textAlign: TextAlign = TextAlign.Start,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        maxLines = maxLines,
+        style = MaterialTheme.typography.titleLarge,
+        color = color,
+        overflow = textOverflow,
+        textAlign = textAlign
+    )
+}
