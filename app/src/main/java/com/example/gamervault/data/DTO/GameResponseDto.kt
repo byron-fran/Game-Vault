@@ -10,9 +10,6 @@ data class GameResponseDto(
     @field:SerializedName("description")
     val description: String,
 
-    @field:SerializedName("filters")
-    val filters: FiltersDto,
-
     @field:SerializedName("next")
     val next: String,
 
