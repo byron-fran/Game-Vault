@@ -45,9 +45,9 @@ import com.example.gamervault.features.games.components.GameInfo
 import com.example.gamervault.features.games.events.GameUiEvents
 import com.example.gamervault.features.games.states.GameUIStatus
 import com.example.gamervault.features.games.states.GameUiState
-import com.example.gamervault.features.search.components.BodyLarge
-import com.example.gamervault.features.search.components.BodySmall
-import com.example.gamervault.features.search.components.TitleLarge
+import com.example.gamervault.ui.components.BodyLarge
+import com.example.gamervault.ui.components.BodySmall
+import com.example.gamervault.ui.components.TitleLarge
 import com.example.gamervault.ui.components.CustomIcon
 import com.example.gamervault.ui.components.CustomIconButton
 import com.example.gamervault.ui.components.IconStar

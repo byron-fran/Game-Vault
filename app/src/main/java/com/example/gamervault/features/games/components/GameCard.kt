@@ -32,8 +32,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.example.gamervault.R
 import com.example.gamervault.domain.models.Game
-import com.example.gamervault.features.search.components.BodyLarge
-import com.example.gamervault.features.search.components.BodyMedium
+import com.example.gamervault.ui.components.BodyLarge
+import com.example.gamervault.ui.components.BodyMedium
 import com.example.gamervault.ui.components.IconStar
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)

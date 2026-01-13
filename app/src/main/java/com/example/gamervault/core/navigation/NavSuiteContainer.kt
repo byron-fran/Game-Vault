@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation3.runtime.NavKey
 import com.example.gamervault.R
-import com.example.gamervault.features.search.components.LabelSmall
+import com.example.gamervault.ui.components.LabelSmall
 
 data class NavSuiteItem(
     val route: Route,
