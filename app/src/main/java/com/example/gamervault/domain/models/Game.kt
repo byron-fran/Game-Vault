@@ -3,6 +3,7 @@ package com.example.gamervault.domain.models
 data class Game(
     val id: Int = 0,
     val name: String = "",
+    val description: String = "",
     val rating: Double = 0.0,
     val backgroundImage: String = "",
     val genres: List<Genre> = emptyList(),
@@ -11,4 +12,5 @@ data class Game(
     val reviewsTextCount: Int = 0,
     val slug: String = "",
     val tags: List<Tag> = emptyList(),
+    val platforms: List<PlatformX> = emptyList()
 )
