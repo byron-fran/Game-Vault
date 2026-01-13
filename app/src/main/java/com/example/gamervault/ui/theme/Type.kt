@@ -10,6 +10,24 @@ import com.example.gamervault.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    titleMedium = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.roboto_medium)
+        ),
+        fontWeight = FontWeight.Bold,
+        fontSize = 19.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.5.sp
+    ),
+    titleLarge = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.roboto_extra_bold)
+        ),
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.5.sp
+    ),
     bodyLarge = TextStyle(
         fontFamily = FontFamily(
             Font(R.font.roboto_bold)
@@ -22,6 +40,15 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = FontFamily(
             Font(R.font.roboto_medium)
+        ),
+        fontSize = 14.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+
+    ),
+    bodySmall = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.roboto_regular)
         ),
         fontSize = 14.sp,
         lineHeight = 16.sp,
