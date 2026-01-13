@@ -37,7 +37,9 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                         onEvent = gameViewModel::onEvent,
                         gamesUiState = gameViewModel.gameUiState.value,
                         gameUiStatus = gameViewModel.gameUiStatus.value
-                    )
+                    ){
+                        backStack.removeLastOrNull()
+                    }
                 }
                 entry<Route.FavoritesScreen>{
                     FavoritesScreen()
