@@ -8,4 +8,6 @@ interface GamesVaultRepository {
     fun getGames(pageSize: Int, enablePlaceHolders: Boolean, prefetchDistance: Int, initialLoadSize: Int, maxCacheSize: Int) : Flow<PagingData<Game>>
     suspend fun getGameById(id: Int) : Game?
 
+    suspend fun searchGames(query: String) : List<Game>
+
 }
