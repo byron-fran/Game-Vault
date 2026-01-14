@@ -41,7 +41,8 @@ fun GameVaultSearchBar(
                     cursorColor = MaterialTheme.colorScheme.primary,
                     disabledIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground
                 ),
                 trailingIcon = {
                     CustomIconButton (icon = R.drawable.icon_outline_backspace){
