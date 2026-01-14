@@ -44,7 +44,7 @@ fun GameCard(
     onClick: () -> Unit
 ) {
 
-    val colorOnPrimary = Color(0xFFe0e7ff)
+    val colorOnPrimary = Color(0xFFcad5e2)
 
     Box(modifier = modifier
         .clickable { onClick() }

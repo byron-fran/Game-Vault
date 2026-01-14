@@ -64,7 +64,7 @@ fun GameDetailScreen(
 ) {
 
     val game = gamesUiState.gameDetail
-    val colorOnPrimary = Color(0xFFe0e7ff)
+    val colorOnPrimary = Color(0xFFcad5e2)
     val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = id) {
