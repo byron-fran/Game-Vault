@@ -63,6 +63,14 @@ val Typography = Typography(
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
-    )
-
+    ),
+    labelMedium = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.roboto_regular)
+        ),
+        fontWeight = FontWeight.Medium,
+        fontSize = 15.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
 )
