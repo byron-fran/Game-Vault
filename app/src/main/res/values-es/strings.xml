@@ -4,4 +4,7 @@
     <string name="games">Juegos</string>
     <string name="favorites">Favoritos</string>
     <string name="search">Buscar</string>
+    <string name="search_game">Busca cualquier juego</string>
+    <string name="no_games_found">No se encontraron juegos</string>
+    <string name="search_your_favorite_game">Busca tu juego favorito</string>
 </resources>
