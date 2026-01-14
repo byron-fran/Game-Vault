@@ -13,6 +13,7 @@ import com.example.gamervault.features.games.screens.GameDetailScreen
 import com.example.gamervault.features.games.screens.GamesScreen
 import com.example.gamervault.features.games.viewmodel.GamesViewModel
 import com.example.gamervault.features.search.screens.SearchScreen
+import com.example.gamervault.features.search.viewmodel.SearchViewModel
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -45,7 +46,14 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                     FavoritesScreen()
                 }
                 entry<Route.SearchScreen>{
-                    SearchScreen()
+                    val searchViewModel: SearchViewModel = hiltViewModel()
+                    SearchScreen(
+                        searchUiState = searchViewModel.searchUiState.value,
+                        searchUiResponse = searchViewModel.searchUiResponse.value,
+                        onEvent = searchViewModel::onEvent
+                    ){ id ->
+                        backStack.add(Route.GameDetailScreen(id))
+                    }
                 }
             }
         )
