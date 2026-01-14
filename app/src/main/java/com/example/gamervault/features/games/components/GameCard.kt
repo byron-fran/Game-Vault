@@ -89,7 +89,9 @@ fun GameCard(
                 BodyMedium( String.format("%.1f", game.rating), color = colorOnPrimary)
             },
             released = {
-                BodyMedium(game.released.substringBefore("-"), color = colorOnPrimary)
+                game.released?.let {
+                    BodyMedium(game.released.substringBefore("-"), color = colorOnPrimary)
+                }
             },
             icon = {
                 IconStar(modifier = Modifier.size(16.dp), game.name)

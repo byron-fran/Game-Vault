@@ -125,10 +125,12 @@ fun GameDetailScreen(
                                     )
                                 },
                                 released = {
-                                    BodyLarge(
-                                        text = game.released.substringBefore("-"),
-                                        color = colorOnPrimary
-                                    )
+                                    game.released?.let {
+                                        BodyLarge(
+                                            text = game.released.substringBefore("-"),
+                                            color = colorOnPrimary
+                                        )
+                                    }
                                 }
                             )
                         }
