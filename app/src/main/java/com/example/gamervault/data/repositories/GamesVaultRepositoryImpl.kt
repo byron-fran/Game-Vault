@@ -37,6 +37,9 @@ class GamesVaultRepositoryImpl @Inject constructor(
         ).flow
     }
 
+    override suspend fun searchGames(query: String): List<Game> {
+        return gamesVaultApi.searchGames(query).body()?.games?.map { it.toDomain() } ?: emptyList()
+    }
     override suspend fun getGameById(id: Int): Game? {
         return gamesVaultApi.getGameById(id)?.toDomain()
     }
