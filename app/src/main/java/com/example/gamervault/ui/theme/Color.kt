@@ -9,6 +9,8 @@ val DarkOnSecondary= Color(0xFF00b8db) // Cyan 500
 val DarkSurface = Color(0xFF1e2939) // Gray 800
 val DarkOnSurface = Color(0xFF6a7282) // Gray 500
 val DarkOnTertiary = Color(0xFFfcc800)
+val DarkError = Color(0x33FF2056)
+var DarkOnError = Color(0xFFE5184A)
 
 val LightBackground = Color(0xFFe0e7ff) // Indigo 100
 val LightPrimary = Color(0xFF432dd7) // Indigo 700
@@ -17,3 +19,5 @@ val LightOnSecondary= Color(0xFF0092b8) // Cyan 600
 val LightSurface = Color(0x40A3B3FF)
 val LightOnSurface = Color(0xFF364153)
 val LightOnTertiary = Color(0xFFfcc800)
+val LightError = Color(0x26FF2056)
+val LightOnError =  Color(0xFFE5184A)

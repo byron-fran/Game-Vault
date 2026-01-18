@@ -17,7 +17,9 @@ private val DarkColorScheme = darkColorScheme(
     background = DarkBackground,
     surface = DarkSurface,
     onSurface = DarkOnSurface,
-    onTertiary = DarkOnTertiary
+    onTertiary = DarkOnTertiary,
+    error = DarkError,
+    onError = DarkOnError
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -27,7 +29,9 @@ private val LightColorScheme = lightColorScheme(
     background = LightBackground,
     surface = LightSurface,
     onSurface = LightOnSurface,
-    onTertiary = LightOnTertiary
+    onTertiary = LightOnTertiary,
+    error = LightError,
+    onError = LightOnError
 )
 
 @Composable
