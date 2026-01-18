@@ -11,6 +11,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.gamervault.features.auth.screens.AccountScreen
 import com.example.gamervault.features.auth.screens.SignInScreen
 import com.example.gamervault.features.auth.screens.SignUpScreen
+import com.example.gamervault.features.auth.viewmodel.AuthViewModel
 import com.example.gamervault.features.favorites.screens.FavoritesScreen
 import com.example.gamervault.features.games.screens.GameDetailScreen
 import com.example.gamervault.features.games.screens.GamesScreen
@@ -22,6 +23,7 @@ import com.example.gamervault.features.search.viewmodel.SearchViewModel
 @Composable
 fun NavWrapper(backStack: NavBackStack<NavKey>) {
 
+    val authViewModel: AuthViewModel = hiltViewModel()
 
     SharedTransitionLayout {
         NavDisplay(
@@ -58,17 +60,21 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                     }
                 }
                 entry<Route.SignInScreen> {
-                    SignInScreen { route ->
+                    SignInScreen(
+                        authViewModel
+                    ) { route ->
                         backStack.navigateFromAuthTo(route)
                     }
                 }
                 entry<Route.SignUpScreen> {
-                    SignUpScreen { route ->
+                    SignUpScreen(
+                        authViewModel,
+                    ) { route ->
                         backStack.navigateFromAuthTo(route)
                     }
                 }
                 entry<Route.AccountScreen> {
-                    AccountScreen { route ->
+                    AccountScreen(authViewModel) { route ->
                         backStack.add(route)
                     }
                 }
