@@ -8,6 +8,9 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.example.gamervault.features.auth.screens.AccountScreen
+import com.example.gamervault.features.auth.screens.SignInScreen
+import com.example.gamervault.features.auth.screens.SignUpScreen
 import com.example.gamervault.features.favorites.screens.FavoritesScreen
 import com.example.gamervault.features.games.screens.GameDetailScreen
 import com.example.gamervault.features.games.screens.GamesScreen
@@ -25,7 +28,6 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryProvider = entryProvider {
-
                 entry(key = Route.GameScreen) {
                     GamesScreen { id ->
                         backStack.add(Route.GameDetailScreen(id))
@@ -38,21 +40,36 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                         onEvent = gameViewModel::onEvent,
                         gamesUiState = gameViewModel.gameUiState.value,
                         gameUiStatus = gameViewModel.gameUiStatus.value
-                    ){
+                    ) {
                         backStack.removeLastOrNull()
                     }
                 }
-                entry<Route.FavoritesScreen>{
+                entry<Route.FavoritesScreen> {
                     FavoritesScreen()
                 }
-                entry<Route.SearchScreen>{
+                entry<Route.SearchScreen> {
                     val searchViewModel: SearchViewModel = hiltViewModel()
                     SearchScreen(
                         searchUiState = searchViewModel.searchUiState.value,
                         searchUiResponse = searchViewModel.searchUiResponse.value,
                         onEvent = searchViewModel::onEvent
-                    ){ id ->
+                    ) { id ->
                         backStack.add(Route.GameDetailScreen(id))
+                    }
+                }
+                entry<Route.SignInScreen> {
+                    SignInScreen { route ->
+                        backStack.navigateFromAuthTo(route)
+                    }
+                }
+                entry<Route.SignUpScreen> {
+                    SignUpScreen { route ->
+                        backStack.navigateFromAuthTo(route)
+                    }
+                }
+                entry<Route.AccountScreen> {
+                    AccountScreen { route ->
+                        backStack.add(route)
                     }
                 }
             }
