@@ -1,6 +1,6 @@
 package com.example.gamervault.core.di
 
-import com.example.gamervault.data.remote.GamesVaultApi
+import com.example.gamervault.data.source.remote.api.GamesVaultApi
 import com.example.gamervault.data.repositories.GamesVaultRepositoryImpl
 import com.example.gamervault.domain.repositories.GamesVaultRepository
 import com.example.gamervault.domain.usecases.GetGameByIdUseCase

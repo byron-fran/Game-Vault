@@ -1,7 +1,7 @@
 package com.example.gamervault.core.di
 
-import com.example.gamervault.data.remote.ApiKeyInterceptor
-import com.example.gamervault.data.remote.GamesVaultApi
+import com.example.gamervault.data.source.remote.api.ApiKeyInterceptor
+import com.example.gamervault.data.source.remote.api.GamesVaultApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

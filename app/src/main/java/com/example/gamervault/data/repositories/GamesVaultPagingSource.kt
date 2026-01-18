@@ -3,7 +3,7 @@ package com.example.gamervault.data.repositories
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.gamervault.core.mappers.toDomain
-import com.example.gamervault.data.remote.GamesVaultApi
+import com.example.gamervault.data.source.remote.api.GamesVaultApi
 import com.example.gamervault.domain.models.Game
 
 class GamesVaultPagingSource(

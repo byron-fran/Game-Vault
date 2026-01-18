@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.gamervault.core.mappers.toDomain
-import com.example.gamervault.data.remote.GamesVaultApi
+import com.example.gamervault.data.source.remote.api.GamesVaultApi
 import com.example.gamervault.domain.models.Game
 import com.example.gamervault.domain.repositories.GamesVaultRepository
 import kotlinx.coroutines.flow.Flow
