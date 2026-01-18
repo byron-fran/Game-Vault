@@ -7,4 +7,17 @@
     <string name="search_game">Busca cualquier juego</string>
     <string name="no_games_found">No se encontraron juegos</string>
     <string name="search_your_favorite_game">Busca tu juego favorito</string>
+    <string name="account">Cuenta</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="signin_or_create_account">Inicia sesión o crea un cuenta</string>
+    <string name="email_invalid">El correo electrónico no es valido</string>
+    <string name="password_invalid">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="email">Correo electronico</string>
+    <string name="password">Constraseña</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="login_successful">Inicio de sesión correctamente</string>
+    <string name="account_created_successfully">Cuenta creada correctamente</string>
+
 </resources>
