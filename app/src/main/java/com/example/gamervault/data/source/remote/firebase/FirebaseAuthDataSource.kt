@@ -1,5 +1,6 @@
 package com.example.gamervault.data.source.remote.firebase
 
+import android.util.Log
 import com.example.gamervault.domain.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,13 +29,22 @@ class FirebaseAuthDataSource @Inject constructor(
     }
 
     fun createUser(email: String?, username: String?, uid: String?) {
-        if (email == null  || uid == null) return
+        if (email == null || uid == null) {
+            Log.w("FirebaseAuthDataSource", "Cannot create user: email or UID is null.")
+            return
+        }
         firebaseFirestore
             .collection("users")
             .document(uid)
             .set(
-                User(uid, email, username)
-            )
+                User(uid, email = email, username = username ?: "")
+            ).addOnFailureListener { e ->
+                Log.e(
+                    "FirebaseAuthDataSource",
+                    "Error creating user document for UID $uid: ${e.message}",
+                    e
+                )
+            }
 
     }
 
@@ -44,13 +54,30 @@ class FirebaseAuthDataSource @Inject constructor(
 
     fun isAuthenticated() = firebaseAuth.currentUser != null
 
-    suspend fun getCurrentUser() : User? {
-        if(firebaseAuth.currentUser?.uid == null) return null
-        val documentSnapShot = firebaseFirestore
-            .collection("users")
-            .document(firebaseAuth.currentUser?.uid!!)
-            .get()
-            .await()
-        return documentSnapShot.toObject(User::class.java)
+    suspend fun getCurrentUser(): User? {
+        val currentFirebaseUser = firebaseAuth.currentUser
+        if (currentFirebaseUser?.uid == null) {
+            return null
+        }
+        val userId = currentFirebaseUser.uid
+        try {
+            val documentSnapShot = firebaseFirestore
+                .collection("users")
+                .document(userId)
+                .get()
+                .await()
+            if (documentSnapShot.exists()) {
+
+                val user = documentSnapShot.toObject(User::class.java)
+
+                return user
+            } else {
+                return null
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 }
