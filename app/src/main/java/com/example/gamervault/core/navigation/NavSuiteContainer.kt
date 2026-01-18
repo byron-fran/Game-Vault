@@ -54,7 +54,13 @@ val navSuiteItems = listOf(
         label = R.string.search,
         icon = R.drawable.icon_search,
         contentDescription = "search"
-    )
+    ),
+    NavSuiteItem(
+        Route.AccountScreen,
+        label = R.string.account,
+        icon = R.drawable.icon_outline_person,
+        contentDescription = "account"
+    ),
 )
 
 @Composable
