@@ -27,8 +27,8 @@ import com.example.gamervault.ui.components.CustomTextField
 
 @Composable
 fun SignUpScreen(
+    authViewModel: AuthViewModel,
     formViewModel: FormViewModel = viewModel(),
-    authViewModel: AuthViewModel = hiltViewModel(),
     onNavigateTo: (Route) -> Unit
 ) {
     val context = LocalContext.current
@@ -49,6 +49,7 @@ fun SignUpScreen(
             onNavigateTo(Route.GameScreen)
             formViewModel.resetForm()
             formViewModel.clearErrors()
+            authViewModel.clearError()
             toast.show()
         }
     }

@@ -23,8 +23,8 @@ import com.example.gamervault.features.auth.viewmodel.FormViewModel
 
 @Composable
 fun SignInScreen(
+    authViewModel: AuthViewModel,
     formViewModel: FormViewModel = viewModel(),
-    authViewModel: AuthViewModel = hiltViewModel(),
     onNavigateTo: (Route) -> Unit
 ) {
     val context = LocalContext.current
@@ -40,6 +40,7 @@ fun SignInScreen(
             onNavigateTo(Route.GameScreen)
             formViewModel.resetForm()
             formViewModel.clearErrors()
+            authViewModel.clearError()
             toast.show()
         }
     }
