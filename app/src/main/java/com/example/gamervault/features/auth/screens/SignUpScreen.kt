@@ -71,6 +71,7 @@ fun SignUpScreen(
                     onNavigateTo(Route.SignInScreen)
                     formViewModel.resetForm()
                     formViewModel.clearErrors()
+                    authViewModel.clearError()
                 },
                 isLoading = authUiState.isLoading,
                 enableButton = formViewModel.enableButtonSubmit(),
