@@ -134,11 +134,11 @@ fun TitleMedium(
 @Composable
 fun TitleLarge(
     text: String,
+    modifier: Modifier = Modifier,
     color : Color = MaterialTheme.colorScheme.onBackground,
     maxLines: Int = 1,
     textOverflow: TextOverflow = TextOverflow.Ellipsis,
-    textAlign: TextAlign = TextAlign.Start,
-    modifier: Modifier = Modifier
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         text = text,
@@ -147,6 +147,26 @@ fun TitleLarge(
         style = MaterialTheme.typography.titleLarge,
         color = color,
         overflow = textOverflow,
+        textAlign = textAlign
+    )
+}
+
+@Composable
+fun TextError(
+    text : String,
+    modifier: Modifier = Modifier,
+    maxLines: Int = 1,
+    textOverflow: TextOverflow = TextOverflow.Ellipsis,
+    textAlign: TextAlign = TextAlign.Center,
+    color : Color = MaterialTheme.colorScheme.onError,
+    ) {
+
+    BodyMedium(
+        text = text,
+        color = color,
+        modifier = modifier,
+        maxLines = maxLines,
+        textOverflow = textOverflow,
         textAlign = textAlign
     )
 }
