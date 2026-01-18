@@ -1,4 +1,4 @@
-package com.example.gamervault.data.remote
+package com.example.gamervault.data.source.remote.api
 
 import com.example.gamervault.BuildConfig
 import okhttp3.Interceptor

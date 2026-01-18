@@ -1,4 +1,4 @@
-package com.example.gamervault.data.remote
+package com.example.gamervault.data.source.remote.api
 
 import com.example.gamervault.data.DTO.GameDetailDto
 import com.example.gamervault.data.DTO.GameResponseDto
@@ -19,5 +19,3 @@ interface GamesVaultApi {
     suspend fun searchGames(@Query("search") query : String, @Query("page_size") page: Int = 20) : Response<GameResponseDto>
 
 }
-
-
