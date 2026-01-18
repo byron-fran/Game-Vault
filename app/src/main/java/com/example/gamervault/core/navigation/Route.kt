@@ -17,4 +17,11 @@ sealed class Route: NavKey {
     @Serializable
     data object SearchScreen : Route()
 
+    @Serializable
+    data object AccountScreen : Route()
+    @Serializable
+    data object SignInScreen : Route()
+
+    @Serializable
+    data object SignUpScreen : Route()
 }
