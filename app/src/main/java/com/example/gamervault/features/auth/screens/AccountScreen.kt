@@ -129,11 +129,7 @@ fun AccountDetail(
             leadingIcon = {
                 CustomIcon(icon = R.drawable.icon_outline_email)
             },
-            trailingIcon = {
-                CustomIconButton(icon = R.drawable.icon_edit) {
-                    // TODO change readOnly email
-                }
-            }
+
         )
         CustomTextField(
             value =dataForm.username,
@@ -146,12 +142,6 @@ fun AccountDetail(
             leadingIcon = {
                 CustomIcon(icon = R.drawable.icon_outline_person)
             },
-            trailingIcon = {
-                CustomIconButton(icon = R.drawable.icon_edit) {
-                    // TODO change readOnly username
-
-                }
-            }
         )
     }
 }
