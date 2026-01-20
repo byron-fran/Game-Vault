@@ -13,6 +13,7 @@ import com.example.gamervault.features.auth.screens.SignInScreen
 import com.example.gamervault.features.auth.screens.SignUpScreen
 import com.example.gamervault.features.auth.viewmodel.AuthViewModel
 import com.example.gamervault.features.favorites.screens.FavoritesScreen
+import com.example.gamervault.features.favorites.viewmodel.FavoritesViewModel
 import com.example.gamervault.features.games.screens.GameDetailScreen
 import com.example.gamervault.features.games.screens.GamesScreen
 import com.example.gamervault.features.games.viewmodel.GamesViewModel
@@ -24,6 +25,7 @@ import com.example.gamervault.features.search.viewmodel.SearchViewModel
 fun NavWrapper(backStack: NavBackStack<NavKey>) {
 
     val authViewModel: AuthViewModel = hiltViewModel()
+    val favoritesViewModel: FavoritesViewModel = hiltViewModel()
 
     SharedTransitionLayout {
         NavDisplay(
@@ -38,6 +40,7 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                 entry<Route.GameDetailScreen> { args ->
                     val gameViewModel: GamesViewModel = hiltViewModel()
                     GameDetailScreen(
+                        favoritesViewModel = favoritesViewModel,
                         id = args.id,
                         onEvent = gameViewModel::onEvent,
                         gamesUiState = gameViewModel.gameUiState.value,
@@ -47,7 +50,9 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                     }
                 }
                 entry<Route.FavoritesScreen> {
-                    FavoritesScreen()
+                    FavoritesScreen(favoritesViewModel){
+                        backStack.add(Route.GameDetailScreen(it))
+                    }
                 }
                 entry<Route.SearchScreen> {
                     val searchViewModel: SearchViewModel = hiltViewModel()
