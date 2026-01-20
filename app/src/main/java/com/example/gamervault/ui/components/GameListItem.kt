@@ -1,8 +1,9 @@
-package com.example.gamervault.features.search.components
+package com.example.gamervault.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -20,14 +21,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.gamervault.R
 import com.example.gamervault.domain.models.Game
-import com.example.gamervault.ui.components.BodyLarge
-import com.example.gamervault.ui.components.BodyMedium
-import com.example.gamervault.ui.components.IconStar
 
 @Composable
-fun ItemSearch(
+fun GameListItem(
     game: Game,
     modifier: Modifier = Modifier,
+    action : @Composable (RowScope.(Game) -> Unit)? = null,
     onClick: (Int) -> Unit
 ) {
     Card(
@@ -40,7 +39,7 @@ fun ItemSearch(
     ) {
         Row(
             modifier = Modifier,
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             AsyncImage(
@@ -52,7 +51,7 @@ fun ItemSearch(
                     RoundedCornerShape(8.dp)
                 )
             )
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 BodyLarge(game.name)
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -71,6 +70,7 @@ fun ItemSearch(
                     }
                 }
             }
+            action?.invoke(this, game)
         }
     }
 }
