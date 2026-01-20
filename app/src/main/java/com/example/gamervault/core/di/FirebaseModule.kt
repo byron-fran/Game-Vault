@@ -1,6 +1,7 @@
 package com.example.gamervault.core.di
 
 import com.example.gamervault.data.source.remote.firebase.FirebaseAuthDataSource
+import com.example.gamervault.data.source.remote.firebase.FirebaseFavoritesDataSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -16,6 +17,10 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseAuthDataSource(firebaseAuth: FirebaseAuth, firebaseFirestore: FirebaseFirestore) = FirebaseAuthDataSource(firebaseAuth, firebaseFirestore)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestoreDataSource(firebaseAuth: FirebaseAuth, firebaseFirestore: FirebaseFirestore) = FirebaseFavoritesDataSource(firebaseAuth, firebaseFirestore)
 
     @Provides
     @Singleton
