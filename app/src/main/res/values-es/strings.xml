@@ -19,5 +19,7 @@
     <string name="username">Nombre de usuario</string>
     <string name="login_successful">Inicio de sesión correctamente</string>
     <string name="account_created_successfully">Cuenta creada correctamente</string>
+    <string name="no_favorites">No hay favoritos</string>
+    <string name="remove_favorite">Eliminar de favoritos</string>
 
 </resources>

@@ -18,4 +18,6 @@
     <string name="username">Username</string>
     <string name="login_successful">Login successful</string>
     <string name="account_created_successfully">Account created successfully</string>
+    <string name="no_favorites">There are no favorites.</string>
+    <string name="remove_favorite">Remove from favorites</string>
 </resources>
