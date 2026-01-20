@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.example.gamervault.R
 import com.example.gamervault.domain.models.Game
 import com.example.gamervault.domain.models.PlatformX
+import com.example.gamervault.features.auth.viewmodel.AuthViewModel
 import com.example.gamervault.features.favorites.viewmodel.FavoritesViewModel
 import com.example.gamervault.features.games.components.GameInfo
 import com.example.gamervault.features.games.events.GameUiEvents
@@ -58,6 +59,7 @@ import com.example.gamervault.ui.screens.LoadingScreen
 @Composable
 fun GameDetailScreen(
     favoritesViewModel: FavoritesViewModel,
+    authViewModel: AuthViewModel,
     id: Int,
     onEvent: (GameUiEvents) -> Unit,
     gamesUiState: GameUiState,
@@ -69,10 +71,16 @@ fun GameDetailScreen(
     val colorOnPrimary = Color(0xFFcad5e2)
     val scrollState = rememberScrollState()
     val favoritesUiState by favoritesViewModel.favoritesUiState
+    val authUiState by authViewModel.authUiState
 
     LaunchedEffect(key1 = id) {
         if (id != 0) {
             onEvent(GameUiEvents.GetGameById(id))
+        }
+    }
+    LaunchedEffect(authUiState.isAuthenticated) {
+        if(authUiState.isAuthenticated){
+            favoritesViewModel.getFavorites()
         }
     }
 
@@ -84,7 +92,6 @@ fun GameDetailScreen(
         is GameUIStatus.Loading -> {
             LoadingScreen(modifier = Modifier.fillMaxSize())
         }
-
         is GameUIStatus.Success -> {
 
             Box(modifier = Modifier.fillMaxSize()) {
@@ -134,6 +141,7 @@ fun GameDetailScreen(
                             )
                         }
                         GameDetailBody(
+                            isAuthenticated = authUiState.isAuthenticated,
                             game = game,
                             isLoading = favoritesUiState.isFavoriteLoading,
                             modifier = Modifier.padding(4.dp),
@@ -159,6 +167,7 @@ fun GameDetailScreen(
 
 @Composable
 fun GameDetailBody(
+    isAuthenticated: Boolean,
     game: Game,
     modifier: Modifier = Modifier,
     isFavorite: (String) -> Boolean,
@@ -182,7 +191,7 @@ fun GameDetailBody(
             CustomIconButton(icon = R.drawable.icon_download_for_offline) { }
 
             CustomIconButton(
-                icon = if (isFavorite(game.id.toString())) R.drawable.icon_favorite else R.drawable.icon_favorite_outline,
+                icon = if (isFavorite(game.id.toString()) && isAuthenticated) R.drawable.icon_favorite else R.drawable.icon_favorite_outline,
                 enabled = !isLoading,
             ) {
                 onClickFavorite(game)
