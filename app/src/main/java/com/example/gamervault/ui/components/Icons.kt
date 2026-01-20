@@ -1,6 +1,7 @@
 package com.example.gamervault.ui.components
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,10 +48,23 @@ fun CustomIconButton(
     icon: Int,
     tint: Color = MaterialTheme.colorScheme.onBackground,
     contentDescription: String? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
-    IconButton(onClick = onClick, modifier = modifier) {
-        CustomIcon(icon = icon, tint = tint, contentDescription = contentDescription)
+    IconButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled
+    ) {
+        if(enabled){
+            CustomIcon(icon = icon, tint = tint, contentDescription = contentDescription)
+        }
+        else {
+            CircularProgressIndicator(
+                color = tint,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 
 }
