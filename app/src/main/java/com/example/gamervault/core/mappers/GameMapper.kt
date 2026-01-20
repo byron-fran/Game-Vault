@@ -7,6 +7,7 @@ import com.example.gamervault.data.DTO.PlatformDto
 import com.example.gamervault.data.DTO.PlatformXDto
 import com.example.gamervault.data.DTO.RequirementsDto
 import com.example.gamervault.data.DTO.TagDto
+import com.example.gamervault.domain.models.Favorite
 import com.example.gamervault.domain.models.Game
 import com.example.gamervault.domain.models.Genre
 import com.example.gamervault.domain.models.Platform
@@ -68,4 +69,19 @@ fun PlatformDto.toDomain() = Platform(
 fun RequirementsDto.toDomain() = Requirements(
     minimum = this.minimum,
     recommended = this.recommended
+)
+
+fun Game.toFavorite() = Favorite(
+    gameId = this.id.toString(),
+    name = this.name,
+    coverUrl = this.backgroundImage,
+    rating = this.rating,
+    released = this.released
+)
+fun Favorite.toGame() = Game(
+    id = this.gameId.toInt(),
+    name = this.name,
+    backgroundImage = this.coverUrl,
+    rating = this.rating,
+    released = this.released
 )
