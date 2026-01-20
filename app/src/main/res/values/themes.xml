@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.GamerVault" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.GamerVault" parent="Theme.Material3.DayNight.NoActionBar" >
+
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+        <item name="android:statusBarColor">@color/ic_launcher_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+    </style>
+
 </resources>

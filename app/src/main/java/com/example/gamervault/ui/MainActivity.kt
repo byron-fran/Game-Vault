@@ -10,6 +10,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.example.gamervault.core.navigation.NavSuiteContainer
 import com.example.gamervault.core.navigation.NavWrapper
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        installSplashScreen()
         setContent {
             GamerVaultTheme {
                 val backStack = rememberNavBackStack(Route.GameScreen)
