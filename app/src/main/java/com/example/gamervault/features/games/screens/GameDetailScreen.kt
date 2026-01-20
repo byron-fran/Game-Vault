@@ -41,21 +41,23 @@ import coil.compose.AsyncImage
 import com.example.gamervault.R
 import com.example.gamervault.domain.models.Game
 import com.example.gamervault.domain.models.PlatformX
+import com.example.gamervault.features.favorites.viewmodel.FavoritesViewModel
 import com.example.gamervault.features.games.components.GameInfo
 import com.example.gamervault.features.games.events.GameUiEvents
 import com.example.gamervault.features.games.states.GameUIStatus
 import com.example.gamervault.features.games.states.GameUiState
 import com.example.gamervault.ui.components.BodyLarge
 import com.example.gamervault.ui.components.BodySmall
-import com.example.gamervault.ui.components.TitleLarge
 import com.example.gamervault.ui.components.CustomIcon
 import com.example.gamervault.ui.components.CustomIconButton
 import com.example.gamervault.ui.components.IconStar
+import com.example.gamervault.ui.components.TitleLarge
 import com.example.gamervault.ui.screens.EmptyScreen
 import com.example.gamervault.ui.screens.LoadingScreen
 
 @Composable
 fun GameDetailScreen(
+    favoritesViewModel: FavoritesViewModel,
     id: Int,
     onEvent: (GameUiEvents) -> Unit,
     gamesUiState: GameUiState,
@@ -66,6 +68,7 @@ fun GameDetailScreen(
     val game = gamesUiState.gameDetail
     val colorOnPrimary = Color(0xFFcad5e2)
     val scrollState = rememberScrollState()
+    val favoritesUiState by favoritesViewModel.favoritesUiState
 
     LaunchedEffect(key1 = id) {
         if (id != 0) {
@@ -87,11 +90,7 @@ fun GameDetailScreen(
             Box(modifier = Modifier.fillMaxSize()) {
                 CustomIconButton(
                     icon = R.drawable.icon_outline_arrow_back,
-                    modifier = Modifier
-                        .statusBarsPadding()
-                        .align(Alignment.TopStart)
-                        .padding(start = 8.dp)
-                        .zIndex(1f)
+                    modifier = Modifier.statusBarsPadding().align(Alignment.TopStart).padding(start = 8.dp).zIndex(1f)
                 ) {
                     onNavigateBack()
                 }
@@ -134,7 +133,13 @@ fun GameDetailScreen(
                                 }
                             )
                         }
-                        GameDetailBody(game = game, modifier = Modifier.padding(4.dp))
+                        GameDetailBody(
+                            game = game,
+                            isLoading = favoritesUiState.isFavoriteLoading,
+                            modifier = Modifier.padding(4.dp),
+                            onClickFavorite = favoritesViewModel::onClickFavorite,
+                            isFavorite = favoritesViewModel::isFavorite
+                        )
                     }
                 }
             }
@@ -155,7 +160,10 @@ fun GameDetailScreen(
 @Composable
 fun GameDetailBody(
     game: Game,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isFavorite: (String) -> Boolean,
+    isLoading: Boolean,
+    onClickFavorite: (Game) -> Unit
 ) {
     var showLines by remember { mutableStateOf(true) }
 
@@ -165,14 +173,20 @@ fun GameDetailBody(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
         ) {
 
             CustomIconButton(icon = R.drawable.icon_share) { }
 
             CustomIconButton(icon = R.drawable.icon_download_for_offline) { }
 
-            CustomIconButton(icon = R.drawable.icon_favorite_outline) { }
+            CustomIconButton(
+                icon = if (isFavorite(game.id.toString())) R.drawable.icon_favorite else R.drawable.icon_favorite_outline,
+                enabled = !isLoading,
+            ) {
+                onClickFavorite(game)
+            }
         }
         BodyLarge("About Game")
         GameDetailDescription(
@@ -244,9 +258,7 @@ fun GameDetailPlatforms(
     platforms.forEach { platformX ->
         Column {
             Row(
-                modifier = modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth(),
+                modifier = modifier.padding(vertical = 8.dp).fillMaxWidth(),
                 horizontalArrangement = Arrangement.Absolute.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
