@@ -30,6 +30,10 @@ class FavoritesViewModel @Inject constructor(
     val favoriteSelected = _favoriteSelected
 
     init {
+       getFavorites()
+    }
+
+    fun getFavorites() {
         viewModelScope.launch {
             _favoritesUiState.value = _favoritesUiState.value.copy(isLoading = true)
             try {
@@ -38,7 +42,6 @@ class FavoritesViewModel @Inject constructor(
                     favorites = favorites,
                     isLoading = false
                 )
-
             } catch (e: FirestoreFailureException) {
                 _favoritesUiState.value = _favoritesUiState.value.copy(
                     isLoading = false,
