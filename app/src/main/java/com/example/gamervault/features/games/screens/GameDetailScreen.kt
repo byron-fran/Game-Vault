@@ -186,10 +186,6 @@ fun GameDetailBody(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            CustomIconButton(icon = R.drawable.icon_share) { }
-
-            CustomIconButton(icon = R.drawable.icon_download_for_offline) { }
-
             CustomIconButton(
                 icon = if (isFavorite(game.id.toString()) && isAuthenticated) R.drawable.icon_favorite else R.drawable.icon_favorite_outline,
                 enabled = !isLoading,
