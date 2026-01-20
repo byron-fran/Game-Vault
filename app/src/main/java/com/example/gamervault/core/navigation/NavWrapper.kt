@@ -41,6 +41,7 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                     val gameViewModel: GamesViewModel = hiltViewModel()
                     GameDetailScreen(
                         favoritesViewModel = favoritesViewModel,
+                        authViewModel = authViewModel,
                         id = args.id,
                         onEvent = gameViewModel::onEvent,
                         gamesUiState = gameViewModel.gameUiState.value,
@@ -50,7 +51,7 @@ fun NavWrapper(backStack: NavBackStack<NavKey>) {
                     }
                 }
                 entry<Route.FavoritesScreen> {
-                    FavoritesScreen(favoritesViewModel){
+                    FavoritesScreen(favoritesViewModel, authViewModel){
                         backStack.add(Route.GameDetailScreen(it))
                     }
                 }
