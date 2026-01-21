@@ -57,9 +57,9 @@ This structure improves maintainability, scalability, and testability.
 ---
 
 <div style="    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; ">
-<img src="https://res.cloudinary.com/dtvbans9e/image/upload/v1768958420/projects/android/Jetpack%20compose/Games%20Vault/tdeoh6qszmehaupjwfot.png" width="300" alt="image_preview_1"/>
-<img src="https://res.cloudinary.com/dtvbans9e/image/upload/v1768958420/projects/android/Jetpack%20compose/Games%20Vault/n2dzyclfdz1arimy06hx.png" width="300" alt="image_preview_2"/>
-<img src="https://res.cloudinary.com/dtvbans9e/image/upload/v1768958419/projects/android/Jetpack%20compose/Games%20Vault/y6fsnpvdgagpdp89sinz.png" width="300" alt="image_preview_3"/>
+<img src="https://res.cloudinary.com/dtvbans9e/image/upload/v1768958420/projects/android/Jetpack%20compose/Games%20Vault/tdeoh6qszmehaupjwfot.png" width="200" alt="image_preview_1"/>
+<img src="https://res.cloudinary.com/dtvbans9e/image/upload/v1768958420/projects/android/Jetpack%20compose/Games%20Vault/n2dzyclfdz1arimy06hx.png" width="200" alt="image_preview_2"/>
+<img src="https://res.cloudinary.com/dtvbans9e/image/upload/v1768958419/projects/android/Jetpack%20compose/Games%20Vault/y6fsnpvdgagpdp89sinz.png" width="200" alt="image_preview_3"/>
 </div>
 
 ---
