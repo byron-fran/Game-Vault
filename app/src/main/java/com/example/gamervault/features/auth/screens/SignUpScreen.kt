@@ -19,6 +19,11 @@ import com.example.gamervault.core.navigation.Route
 import com.example.gamervault.features.auth.components.BasicForm
 import com.example.gamervault.features.auth.components.FormErrors
 import com.example.gamervault.features.auth.components.FormTemplate
+import com.example.gamervault.features.auth.events.AuthEvent
+import com.example.gamervault.features.auth.events.FormEvent
+import com.example.gamervault.features.auth.states.AuthUiState
+import com.example.gamervault.features.auth.states.DataForm
+import com.example.gamervault.features.auth.states.FormUiState
 import com.example.gamervault.features.auth.states.TypeField
 import com.example.gamervault.features.auth.viewmodel.AuthViewModel
 import com.example.gamervault.features.auth.viewmodel.FormViewModel
@@ -26,15 +31,44 @@ import com.example.gamervault.ui.components.CustomIcon
 import com.example.gamervault.ui.components.CustomTextField
 
 @Composable
-fun SignUpScreen(
-    authViewModel: AuthViewModel,
+fun SignUpRoute(
+    authViewModel: AuthViewModel = hiltViewModel(),
     formViewModel: FormViewModel = viewModel(),
     onNavigateTo: (Route) -> Unit
 ) {
-    val context = LocalContext.current
     val authUiState by authViewModel.authUiState
     val formUiState by formViewModel.formUiState
     val formUiData by formViewModel.formUiData
+
+    SignUpScreen(
+        authUiState = authUiState,
+        formUiState = formUiState,
+        formUiData = formUiData,
+        hidePassword = formViewModel::hidePassword,
+        onFormEvent = formViewModel::onEvent,
+        onAuthEvent = authViewModel::onEvent,
+        validateEmail = formViewModel::validateEmail,
+        validatePassword = formViewModel::validatePassword,
+        enableButton = formViewModel::enableButtonSubmit,
+        onNavigateTo = onNavigateTo
+    )
+
+}
+
+@Composable
+fun SignUpScreen(
+    authUiState: AuthUiState,
+    formUiState: FormUiState,
+    formUiData: DataForm,
+    hidePassword: () -> Unit,
+    onFormEvent: (FormEvent) -> Unit,
+    onAuthEvent: (AuthEvent) -> Unit,
+    enableButton: () -> Boolean,
+    validateEmail: (String, String) -> Boolean,
+    validatePassword: (String, String) -> Boolean,
+    onNavigateTo: (Route) -> Unit
+) {
+    val context = LocalContext.current
     val errorEmailMessage = stringResource(R.string.email_invalid)
     val errorPasswordMessage = stringResource(R.string.password_invalid)
     val registerSuccess = stringResource(R.string.account_created_successfully)
@@ -47,9 +81,9 @@ fun SignUpScreen(
     LaunchedEffect(authUiState.isAuthenticated) {
         if (authUiState.isAuthenticated) {
             onNavigateTo(Route.GameScreen)
-            formViewModel.resetForm()
-            formViewModel.clearErrors()
-            authViewModel.clearError()
+            onFormEvent(FormEvent.ResetForm)
+            onFormEvent(FormEvent.ClearErrors)
+            onAuthEvent(AuthEvent.ClearErrors)
             toast.show()
         }
     }
@@ -66,32 +100,41 @@ fun SignUpScreen(
                 textToNavigate = stringResource(R.string.sign_in),
                 dataForm = formUiData,
                 formUiState = formUiState,
-                onValueChange = formViewModel::onValueChange,
-                onHidePassword = formViewModel::hidePassword,
+                onValueChange = { value, field ->
+                    onFormEvent(FormEvent.OnValueChange(value, field))
+                },
+                onHidePassword = hidePassword,
                 onNavigateTo = {
                     onNavigateTo(Route.SignInScreen)
-                    formViewModel.resetForm()
-                    formViewModel.clearErrors()
-                    authViewModel.clearError()
+                    onFormEvent(FormEvent.ResetForm)
+                    onFormEvent(FormEvent.ClearErrors)
+                    onAuthEvent(AuthEvent.ClearErrors)
                 },
                 isLoading = authUiState.isLoading,
-                enableButton = formViewModel.enableButtonSubmit(),
+                enableButton = enableButton(),
                 onSubmit = {
-                    val isEmailValid = formViewModel.validateEmail(formUiData.email, errorEmailMessage)
-                    val isPasswordValid = formViewModel.validatePassword(formUiData.password, errorPasswordMessage)
+                    val isEmailValid = validateEmail(formUiData.email, errorEmailMessage)
+                    val isPasswordValid =
+                        validatePassword(formUiData.password, errorPasswordMessage)
                     if (isEmailValid && isPasswordValid) {
-                        formViewModel.clearErrors()
-                        authViewModel.signUp(
-                            formUiData.email,
-                            formUiData.password,
-                            formUiData.username
+                        onFormEvent(FormEvent.ClearErrors)
+                        onAuthEvent(
+                            AuthEvent.SignUp(
+                                formUiData.email,
+                                formUiData.password,
+                                formUiData.username
+                            )
                         )
                     }
                 }
             ) {
                 CustomTextField(
                     value = formUiData.username,
-                    onValueChange = { formViewModel.onValueChange(it, TypeField.USERNAME) },
+                    onValueChange = {
+                        onFormEvent(
+                            FormEvent.OnValueChange(it, TypeField.USERNAME)
+                        )
+                    },
                     placerHolder = stringResource(R.string.username),
                     leadingIcon = {
                         CustomIcon(
