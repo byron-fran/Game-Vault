@@ -11,10 +11,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.gamervault.R
 import com.example.gamervault.core.mappers.toGame
+import com.example.gamervault.domain.models.Game
+import com.example.gamervault.features.auth.states.AuthUiState
 import com.example.gamervault.features.auth.viewmodel.AuthViewModel
 import com.example.gamervault.features.favorites.components.FavoriteActions
+import com.example.gamervault.features.favorites.events.FavoriteEvent
+import com.example.gamervault.features.favorites.states.FavoritesUiState
 import com.example.gamervault.features.favorites.viewmodel.FavoritesViewModel
 import com.example.gamervault.ui.components.BodyLarge
 import com.example.gamervault.ui.components.CustomIconButton
@@ -23,20 +28,39 @@ import com.example.gamervault.ui.components.GamesListItems
 import com.example.gamervault.ui.screens.EmptyScreen
 import com.example.gamervault.ui.screens.LoadingScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun FavoritesScreen(
-    favoritesViewModel: FavoritesViewModel,
-    authViewModel: AuthViewModel,
+fun FavoritesRoute(
+    favoritesViewModel: FavoritesViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     onNavigateToDetail: (Int) -> Unit
 ) {
     val favoritesUiState by favoritesViewModel.favoritesUiState
     val favoriteSelected by favoritesViewModel.favoriteSelected
     val authUiState by authViewModel.authUiState
 
+    FavoritesScreen(
+        favoriteSelected,
+        authUiState,
+        favoritesUiState,
+        onEvent = favoritesViewModel::onEvent,
+        onNavigateToDetail = onNavigateToDetail
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FavoritesScreen(
+    favoriteSelected: Game?,
+    authUiState : AuthUiState,
+    favoritesUiState : FavoritesUiState,
+    onEvent : (FavoriteEvent) -> Unit,
+    onNavigateToDetail: (Int) -> Unit
+) {
+
     LaunchedEffect(authUiState.isAuthenticated) {
         if(authUiState.isAuthenticated){
-            favoritesViewModel.getFavorites()
+            onEvent(FavoriteEvent.GetFavorites)
         }
     }
 
@@ -68,7 +92,7 @@ fun FavoritesScreen(
                     games,
                     action = { game ->
                         CustomIconButton(icon = R.drawable.icon_more_vert) {
-                            favoritesViewModel.onFavoriteSelected(game)
+                            onEvent(FavoriteEvent.OnFavoriteSelected(game))
                         }
                     }
                 ) {
@@ -78,15 +102,15 @@ fun FavoritesScreen(
                     CustomModalBottomSheet(
                         modifier = Modifier,
                         onDismissRequest = {
-                            favoritesViewModel.onFavoriteSelected(null)
+                            onEvent(FavoriteEvent.OnFavoriteSelected(null))
                         }
                     ) {
                         FavoriteActions(
                             game = game,
                             modifier = Modifier.height(400.dp)
                         ) {
-                            favoritesViewModel.onClickFavorite(game)
-                            favoritesViewModel.onFavoriteSelected(null)
+                            onEvent(FavoriteEvent.OnClickFavorite(game))
+                            onEvent(FavoriteEvent.OnFavoriteSelected(null))
                         }
                     }
                 }
