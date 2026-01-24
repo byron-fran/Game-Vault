@@ -2,6 +2,7 @@ package com.example.gamervault.features.auth.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.gamervault.features.auth.events.FormEvent
 import com.example.gamervault.features.auth.states.DataForm
 import com.example.gamervault.features.auth.states.FormUiState
 import com.example.gamervault.features.auth.states.TypeField
@@ -64,5 +65,14 @@ class FormViewModel : ViewModel() {
             password = "",
             username = ""
         )
+    }
+
+    fun onEvent(event : FormEvent) {
+        when(event) {
+            is FormEvent.ResetForm -> resetForm()
+            is FormEvent.ClearErrors -> clearErrors()
+            is FormEvent.HidePassword -> hidePassword()
+            is FormEvent.OnValueChange -> onValueChange(event.value, event.field)
+        }
     }
 }
