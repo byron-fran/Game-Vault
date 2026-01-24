@@ -9,6 +9,7 @@ import com.example.gamervault.domain.usecases.IsAuthenticatedUseCase
 import com.example.gamervault.domain.usecases.SignInUseCase
 import com.example.gamervault.domain.usecases.SignOutUseCase
 import com.example.gamervault.domain.usecases.SignUpUseCase
+import com.example.gamervault.features.auth.events.AuthEvent
 import com.example.gamervault.features.auth.states.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -141,5 +142,14 @@ class AuthViewModel @Inject constructor(
 
     fun clearError() {
         _authUiState.value = _authUiState.value.copy(isError = null)
+    }
+
+    fun onEvent(event : AuthEvent) {
+        when(event) {
+            is AuthEvent.SignIn -> signIn(event.email, event.password)
+            is AuthEvent.SignUp -> signUp(event.email, event.password, event.username)
+            is AuthEvent.SignOut -> signOut()
+            is AuthEvent.ClearErrors -> clearError()
+        }
     }
 }
