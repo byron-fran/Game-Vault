@@ -18,18 +18,52 @@ import com.example.gamervault.core.navigation.Route
 import com.example.gamervault.features.auth.components.BasicForm
 import com.example.gamervault.features.auth.components.FormErrors
 import com.example.gamervault.features.auth.components.FormTemplate
+import com.example.gamervault.features.auth.events.AuthEvent
+import com.example.gamervault.features.auth.events.FormEvent
+import com.example.gamervault.features.auth.states.AuthUiState
+import com.example.gamervault.features.auth.states.DataForm
+import com.example.gamervault.features.auth.states.FormUiState
 import com.example.gamervault.features.auth.viewmodel.AuthViewModel
 import com.example.gamervault.features.auth.viewmodel.FormViewModel
 
 @Composable
-fun SignInScreen(
-    authViewModel: AuthViewModel,
+fun SignInRoute(
+    authViewModel: AuthViewModel = hiltViewModel(),
     formViewModel: FormViewModel = viewModel(),
+    onNavigateTo : (Route) -> Unit
+) {
+    val authUiState by authViewModel.authUiState
+    val formUiState by formViewModel.formUiState
+    val formUiData by formViewModel.formUiData
+
+    SignInScreen(
+        authUiState=authUiState,
+        formUiState = formUiState,
+        formUiData = formUiData,
+        onFormEvent = formViewModel::onEvent,
+        onAuthEvent = authViewModel::onEvent,
+        validatePassword = formViewModel::validatePassword,
+        validateEmail = formViewModel::validateEmail,
+        enableButton = formViewModel::enableButtonSubmit,
+        onNavigateTo = onNavigateTo
+
+    )
+}
+
+
+@Composable
+fun SignInScreen(
+    authUiState: AuthUiState,
+    formUiState: FormUiState,
+    formUiData: DataForm,
+    onFormEvent : (FormEvent) -> Unit,
+    onAuthEvent : (AuthEvent) -> Unit,
+    validatePassword : (String, String) -> Boolean,
+    validateEmail : (String, String)->Boolean,
+    enableButton : () -> Boolean,
     onNavigateTo: (Route) -> Unit
 ) {
     val context = LocalContext.current
-    val authUiState by authViewModel.authUiState
-    val formUiState by formViewModel.formUiState
     val errorEmailMessage = stringResource(R.string.email_invalid)
     val errorPasswordMessage = stringResource(R.string.password_invalid)
     val loginSuccess = stringResource(R.string.login_successful)
@@ -38,9 +72,10 @@ fun SignInScreen(
     LaunchedEffect(authUiState.isAuthenticated) {
         if (authUiState.isAuthenticated) {
             onNavigateTo(Route.GameScreen)
-            formViewModel.resetForm()
-            formViewModel.clearErrors()
-            authViewModel.clearError()
+            onFormEvent(FormEvent.ResetForm)
+            onFormEvent(FormEvent.ClearErrors)
+            onFormEvent(FormEvent.ClearErrors)
+            onAuthEvent(AuthEvent.ClearErrors)
             toast.show()
         }
     }
@@ -60,32 +95,38 @@ fun SignInScreen(
             BasicForm(
                 titleButton = stringResource(R.string.sign_in),
                 textToNavigate = stringResource(R.string.sign_up),
-                dataForm = formViewModel.formUiData.value,
+                dataForm = formUiData,
                 formUiState = formUiState,
-                onValueChange = formViewModel::onValueChange,
-                onHidePassword = formViewModel::hidePassword,
+                onValueChange = { value, field ->
+                    onFormEvent(FormEvent.OnValueChange(value, field))
+                },
+                onHidePassword = {
+                    onFormEvent(FormEvent.HidePassword)
+                },
                 isLoading = authUiState.isLoading,
                 onNavigateTo = {
                     onNavigateTo(Route.SignUpScreen)
-                    formViewModel.clearErrors()
-                    formViewModel.resetForm()
-                    authViewModel.clearError()
+                    onFormEvent(FormEvent.ResetForm)
+                    onFormEvent(FormEvent.ClearErrors)
+                    onFormEvent(FormEvent.ClearErrors)
                 },
-                enableButton = formViewModel.enableButtonSubmit(),
+                enableButton = enableButton(),
                 onSubmit = {
-                    val isEmailValid = formViewModel.validateEmail(
-                        formViewModel.formUiData.value.email,
-                        messageError = errorEmailMessage
+                    val isEmailValid = validateEmail(
+                        formUiData.email,
+                        errorEmailMessage
                     )
-                    val isPasswordValid = formViewModel.validatePassword(
-                        formViewModel.formUiData.value.password,
-                        messageError = errorPasswordMessage
+                    val isPasswordValid = validatePassword(
+                        formUiData.password,
+                        errorPasswordMessage
                     )
                     if (isEmailValid && isPasswordValid) {
-                        formViewModel.clearErrors()
-                        authViewModel.signIn(
-                            formViewModel.formUiData.value.email,
-                            formViewModel.formUiData.value.password
+                        onFormEvent(FormEvent.ClearErrors)
+                        onAuthEvent(
+                            AuthEvent.SignIn(
+                                formUiData.email,
+                                formUiData.password
+                            )
                         )
                     }
                 }
