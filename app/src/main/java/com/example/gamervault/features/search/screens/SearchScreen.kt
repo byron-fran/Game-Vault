@@ -5,18 +5,37 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.gamervault.R
 import com.example.gamervault.features.search.components.GameVaultSearchBar
 import com.example.gamervault.ui.components.GamesListItems
 import com.example.gamervault.features.search.events.SearchEvents
 import com.example.gamervault.features.search.states.SearchUiResponse
 import com.example.gamervault.features.search.states.SearchUiState
+import com.example.gamervault.features.search.viewmodel.SearchViewModel
 import com.example.gamervault.ui.components.BodyLarge
 import com.example.gamervault.ui.screens.EmptyScreen
 import com.example.gamervault.ui.screens.LoadingScreen
 
+@Composable
+fun SearchRoute(
+    searchViewModel: SearchViewModel = hiltViewModel(),
+    onNavigateToDetail: (Int) -> Unit
+) {
+    val searchUiState by searchViewModel.searchUiState
+    val searchUiResponse by searchViewModel.searchUiResponse
+
+    SearchScreen(
+        searchUiState,
+        searchUiResponse,
+        onEvent = searchViewModel::onEvent,
+        onNavigateToDetail = onNavigateToDetail
+    )
+
+}
 @Composable
 fun SearchScreen(
     searchUiState: SearchUiState,
