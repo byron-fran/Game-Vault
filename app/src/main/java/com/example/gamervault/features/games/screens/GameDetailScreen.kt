@@ -37,16 +37,21 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.gamervault.R
 import com.example.gamervault.domain.models.Game
 import com.example.gamervault.domain.models.PlatformX
+import com.example.gamervault.features.auth.states.AuthUiState
 import com.example.gamervault.features.auth.viewmodel.AuthViewModel
+import com.example.gamervault.features.favorites.events.FavoriteEvent
+import com.example.gamervault.features.favorites.states.FavoritesUiState
 import com.example.gamervault.features.favorites.viewmodel.FavoritesViewModel
 import com.example.gamervault.features.games.components.GameInfo
 import com.example.gamervault.features.games.events.GameUiEvents
 import com.example.gamervault.features.games.states.GameUIStatus
 import com.example.gamervault.features.games.states.GameUiState
+import com.example.gamervault.features.games.viewmodel.GamesViewModel
 import com.example.gamervault.ui.components.BodyLarge
 import com.example.gamervault.ui.components.BodySmall
 import com.example.gamervault.ui.components.CustomIcon
@@ -57,35 +62,65 @@ import com.example.gamervault.ui.screens.EmptyScreen
 import com.example.gamervault.ui.screens.LoadingScreen
 
 @Composable
+fun GameDetailRoute(
+    favoritesViewModel: FavoritesViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
+    gamesViewModel : GamesViewModel = hiltViewModel(),
+    id : Int,
+    onNavigateBack : () -> Unit
+) {
+
+    val gameUiState by gamesViewModel.gameUiState
+    val gameUiStatus by gamesViewModel.gameUiStatus
+    val authUiState by authViewModel.authUiState
+    val favoritesUiState by favoritesViewModel.favoritesUiState
+
+    GameDetailScreen(
+        id = id,
+        isFavorite = favoritesViewModel::isFavorite,
+        onGameEvent = gamesViewModel::onEvent,
+        onFavoriteEvent = favoritesViewModel::onEvent,
+        gamesUiState = gameUiState,
+        gameUiStatus = gameUiStatus,
+        authUiState = authUiState,
+        favoritesUiState = favoritesUiState
+    ) {
+        onNavigateBack()
+    }
+}
+
+
+
+@Composable
 fun GameDetailScreen(
-    favoritesViewModel: FavoritesViewModel,
-    authViewModel: AuthViewModel,
     id: Int,
-    onEvent: (GameUiEvents) -> Unit,
+    isFavorite : (String) -> Boolean,
+    onFavoriteEvent : (FavoriteEvent) -> Unit,
+    onGameEvent: ( GameUiEvents) -> Unit,
     gamesUiState: GameUiState,
     gameUiStatus: GameUIStatus,
+    authUiState : AuthUiState,
+    favoritesUiState : FavoritesUiState,
     onNavigateBack: () -> Unit
 ) {
 
     val game = gamesUiState.gameDetail
     val colorOnPrimary = Color(0xFFcad5e2)
     val scrollState = rememberScrollState()
-    val favoritesUiState by favoritesViewModel.favoritesUiState
-    val authUiState by authViewModel.authUiState
 
     LaunchedEffect(key1 = id) {
         if (id != 0) {
-            onEvent(GameUiEvents.GetGameById(id))
+            onGameEvent(GameUiEvents.GetGameById(id))
         }
     }
     LaunchedEffect(authUiState.isAuthenticated) {
         if(authUiState.isAuthenticated){
-            favoritesViewModel.getFavorites()
+            onFavoriteEvent(FavoriteEvent.GetFavorites)
         }
     }
 
     DisposableEffect(Unit) {
-        onDispose { onEvent(GameUiEvents.ClearGameDetail) }
+        onDispose { onGameEvent(GameUiEvents.ClearGameDetail) }
     }
 
     when (gameUiStatus) {
@@ -145,8 +180,8 @@ fun GameDetailScreen(
                             game = game,
                             isLoading = favoritesUiState.isFavoriteLoading,
                             modifier = Modifier.padding(4.dp),
-                            onClickFavorite = favoritesViewModel::onClickFavorite,
-                            isFavorite = favoritesViewModel::isFavorite
+                            onClickFavorite = {onFavoriteEvent(FavoriteEvent.OnClickFavorite(it))},
+                            isFavorite = isFavorite
                         )
                     }
                 }
