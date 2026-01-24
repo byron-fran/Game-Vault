@@ -9,6 +9,7 @@ import com.example.gamervault.domain.models.Game
 import com.example.gamervault.domain.usecases.favorites.DeleteFavoriteByIdUseCase
 import com.example.gamervault.domain.usecases.favorites.GetFavoritesUseCase
 import com.example.gamervault.domain.usecases.favorites.InsertFavoriteUseCase
+import com.example.gamervault.features.favorites.events.FavoriteEvent
 import com.example.gamervault.features.favorites.states.FavoritesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -127,5 +128,17 @@ class FavoritesViewModel @Inject constructor(
 
     fun clearError() {
         _favoritesUiState.value = _favoritesUiState.value.copy(error = null)
+    }
+
+    fun onEvent(event: FavoriteEvent){
+        when(event) {
+            is FavoriteEvent.GetFavorites -> getFavorites()
+            is FavoriteEvent.OnFavoriteSelected -> {
+                onFavoriteSelected(event.game)
+            }
+            is FavoriteEvent.OnClickFavorite -> {
+                onClickFavorite(event.game)
+            }
+        }
     }
 }
